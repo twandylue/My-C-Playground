@@ -18,10 +18,26 @@ int main(void) {
   printf("map length after: %d\n", hashmap_length(map));
   printf("status: %d\n", s3);
 
-  any_t *s = NULL;
-  int s4 = hashmap_get(map, "amy", &s);
+  any_t *val1 = NULL;
+  int s4 = hashmap_get(map, "amy", &val1);
   printf("status: %d\n", s4);
-  printf("val: %d\n", *(int *)s);
+  printf("val1: %d\n", *(int *)val1);
+
+  int s5 = hashmap_get(map, "andy", &val1);
+  printf("status: %d\n", s5);
+  if (val1) {
+    printf("val1: %d\n", *(int *)val1);
+  } else {
+    printf("val1 is null\n");
+  }
+
+  any_t *val2 = NULL;
+  int s6 = hashmap_get(map, "auther", &val2);
+  printf("status: %d\n", s6);
+  if (!val2) {
+    printf("val2 is null\n");
+  }
+
   hashmap_free(map);
   return 0;
 }

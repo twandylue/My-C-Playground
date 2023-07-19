@@ -40,13 +40,12 @@ int hashmap_hash(map_t in, const char *key) {
   int curr = hash(map, key);
   printf("key: %s, hash: %d\n", key, curr);
 
-  /* probling */
+  /* probling if necessary */
   for (int i = 0; i < map->table_size; ++i) {
     if (map->data[curr].in_use == 0) {
       return curr;
     }
 
-    // TODO: Why?
     if (strcmp(map->data[curr].key, key) == 0 && map->data[curr].in_use == 1) {
       return curr;
     }
@@ -120,6 +119,8 @@ extern int hashmap_get(map_t in, const char *key, any_t **arg) {
   hashmap_map *map = (hashmap_map *)in;
   int index = hashmap_hash(map, key);
   if (map->data[index].key == NULL) {
+      printf("key: %s does not exist.\n", key);
+      *arg = NULL;
     return MAP_MISSING;
   }
 
@@ -127,14 +128,27 @@ extern int hashmap_get(map_t in, const char *key, any_t **arg) {
   for (int i = 0; i < map->table_size; ++i) {
     if (strcmp(map->data[index].key, key) == 0 &&
         map->data[index].in_use == 1) {
-      *arg = map->data[index].value;
+        if (*arg == NULL) {
+            *arg = (any_t*) malloc(sizeof(any_t));
+            if (*arg == NULL) {
+                goto err;
+            }
+        }
+
+        *arg = map->data[index].value;
       return MAP_OK;
     }
 
     index = (index + 1) % map->table_size;
   }
 
-  arg = NULL;
+  *arg = NULL;
+  return MAP_MISSING;
+
+err:
+  if (map != NULL) {
+    hashmap_free(map);
+  }
   return MAP_MISSING;
 }
 

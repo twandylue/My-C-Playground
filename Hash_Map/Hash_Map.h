@@ -1,3 +1,6 @@
+/* 
+ * ref: https://web.archive.org/web/20160329102146/http://elliottback.com/wp/hashmap-implementation-in-c/ 
+ * */
 #ifndef __Hash_Map_H__
 #define __Hash_Map_H__
 
