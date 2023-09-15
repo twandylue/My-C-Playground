@@ -8,3 +8,6 @@ tokenization: main.c
 format:
 	clang-format --style=$(STYLE) -i *.c
 	# clang-format --style=$(STYLE) -i *.h
+
+clean:
+	rm -f tokenization
