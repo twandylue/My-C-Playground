@@ -30,7 +30,7 @@ struct Lexer *create_lexer(char *source) {
   return lexer;
 }
 
-struct Token *Lexer_next(struct Lexer *lexer) {
+struct Token *lexer_next(struct Lexer *lexer) {
   struct Token *token = malloc(sizeof(struct Token));
   char c = lexer->source[lexer->index];
   while (c == ' ') {
@@ -107,7 +107,7 @@ char *print_token(struct Token *token) {
 int main(void) {
   struct Lexer *le = create_lexer("fn(   a   ) { test = abc }");
   while (le->index < (int)strlen(le->source)) {
-    struct Token *token = Lexer_next(le);
+    struct Token *token = lexer_next(le);
     printf("token text: %s\n", token->text);
     printf("token: %s\n", print_token(token));
     printf("-------\n");
