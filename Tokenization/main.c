@@ -30,7 +30,7 @@ struct Lexer *create_lexer(char *source) {
   return lexer;
 }
 
-struct Token *lexer_next(struct Lexer *lexer) {
+struct Token *next_lexer(struct Lexer *lexer) {
   struct Token *token = malloc(sizeof(struct Token));
   char c = lexer->source[lexer->index];
   while (c == ' ') {
@@ -83,7 +83,7 @@ struct Token *lexer_next(struct Lexer *lexer) {
   return token;
 }
 
-char *print_token(struct Token *token) {
+char *to_string(struct Token *token) {
   switch (token->kind) {
   case Sym:
     return "Sym";
@@ -107,9 +107,9 @@ char *print_token(struct Token *token) {
 int main(void) {
   struct Lexer *le = create_lexer("fn(   a   ) { test = abc }");
   while (le->index < (int)strlen(le->source)) {
-    struct Token *token = lexer_next(le);
+    struct Token *token = next_lexer(le);
     printf("token text: %s\n", token->text);
-    printf("token: %s\n", print_token(token));
+    printf("token: %s\n", to_string(token));
     printf("-------\n");
   }
 
